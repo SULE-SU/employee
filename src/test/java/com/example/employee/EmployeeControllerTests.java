@@ -145,7 +145,21 @@ public class EmployeeControllerTests {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    void should_return_page_query_info_when_page_query_with_page_1_and_size_5() throws Exception {
+        for (int i = 1; i <= 6; i++) {
+            employeeController.createEmployee(new Employee(null, "Employee" + i, 20 + i, "Male", 5000.0 + i));
+        }
 
+        MockHttpServletRequestBuilder request = get("/employees"+"?page=1&pageSize=5")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(5))
+                .andExpect(jsonPath("$[0].name").value("Employee1"))
+                .andExpect(jsonPath("$[4].name").value("Employee5"));
+    }
 
 
 }

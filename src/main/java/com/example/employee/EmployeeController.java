@@ -36,7 +36,14 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getEmployeesByGender(@RequestParam(required =false) String gender) {
+    public List<Employee> getEmployeesByGender(@RequestParam(required =false) String gender,
+                                               @RequestParam(required =false)  Integer page,
+                                               @RequestParam(required =false)  Integer pageSize) {
+        if (page != null && pageSize != null) {
+            int fromIndex = (page - 1) * pageSize;
+            int toIndex = Math.min(fromIndex + pageSize, employees.size());
+            return employees.subList(fromIndex, toIndex);
+        }
         if (gender == null) {
             return employees;
         }
@@ -74,5 +81,6 @@ public class EmployeeController {
             }
         }
     }
+
 
 }
