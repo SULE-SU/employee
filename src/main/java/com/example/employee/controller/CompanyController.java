@@ -52,16 +52,20 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     public Company updateCompany(@PathVariable int id, @RequestBody Company updatedCompany) {
-        for (int i = 0; i < companies.size(); i++) {
-            Company company = companies.get(i);
-            if (company.id() == id) {
-                Company newCompany = new Company(id, updatedCompany.name());
-                companies.set(i, newCompany);
-                return newCompany;
-            }
+        int index = companies.stream()
+                .map(Company::id)
+                .toList()
+                .indexOf(id);
+
+        if (index == -1) {
+            throw new CompanyNotFoundException("Company not found with id: " + id);
         }
-        throw new CompanyNotFoundException("Company not found with id: " + id);
+
+        Company newCompany = new Company(id, updatedCompany.name());
+        companies.set(index, newCompany);
+        return newCompany;
     }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
