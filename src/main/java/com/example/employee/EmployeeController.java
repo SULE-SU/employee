@@ -36,9 +36,9 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getEmployeesByGender(@RequestParam(required =false) String gender,
-                                               @RequestParam(required =false)  Integer page,
-                                               @RequestParam(required =false)  Integer pageSize) {
+    public List<Employee> getEmployeesByGender(@RequestParam(required = false) String gender,
+                                               @RequestParam(required = false) Integer page,
+                                               @RequestParam(required = false) Integer pageSize) {
         if (page != null && pageSize != null) {
             int fromIndex = (page - 1) * pageSize;
             int toIndex = Math.min(fromIndex + pageSize, employees.size());
@@ -48,7 +48,7 @@ public class EmployeeController {
             return employees;
         }
         return employees.stream()
-                .filter(employee -> employee.gender().compareToIgnoreCase(gender)==0)
+                .filter(employee -> employee.gender().compareToIgnoreCase(gender) == 0)
                 .toList();
     }
 
@@ -74,12 +74,12 @@ public class EmployeeController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable int id) {
-        int index =0;
+        int index = 0;
         for (int i = 0; i < employees.size(); i++) {
             Employee employee = employees.get(i);
             if (employee.id() == id) {
-               index = i;
-               break;
+                index = i;
+                break;
             }
         }
         employees.remove(index);
