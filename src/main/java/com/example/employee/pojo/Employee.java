@@ -1,4 +1,4 @@
-package com.example.employee;
+package com.example.employee.pojo;
 
 public record Employee(Integer id, String name, int age, String gender, double salary) {
 }

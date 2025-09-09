@@ -1,5 +1,6 @@
-package com.example.employee;
+package com.example.employee.controller;
 
+import com.example.employee.pojo.Employee;
 import com.example.employee.exception.EmployeeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
