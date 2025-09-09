@@ -1,6 +1,7 @@
 package com.example.employee;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +20,11 @@ public class EmployeeControllerTests {
     private MockMvc mockMvc;
     @Autowired
     EmployeeController employeeController;
+
+    @BeforeEach
+    void setUp(){
+        employeeController.clearEmployees();
+    }
 
     @Test
     void should_return_created_employee_when_post() throws Exception {

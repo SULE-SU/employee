@@ -13,6 +13,11 @@ public class EmployeeController {
     private List<Employee> employees = new ArrayList<>();
     private int id = 0;
 
+    public void clearEmployees() {
+        employees.clear();
+        id = 0;
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Employee createEmployee(@RequestBody Employee employee) {
