@@ -22,7 +22,7 @@ public class EmployeeControllerTests {
     EmployeeController employeeController;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         employeeController.clearEmployees();
     }
 
@@ -52,9 +52,9 @@ public class EmployeeControllerTests {
     @Test
     void should_return_employee_when_get_employee_with_id_exist() throws Exception {
 
-        Employee employee = new Employee(null,"Mike",23,"Male",6000.0);
+        Employee employee = new Employee(null, "Mike", 23, "Male", 6000.0);
         Employee expected = employeeController.createEmployee(employee);
-        MockHttpServletRequestBuilder request = get("/employees/"+ expected.id())
+        MockHttpServletRequestBuilder request = get("/employees/" + expected.id())
                 .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request)
@@ -68,8 +68,8 @@ public class EmployeeControllerTests {
 
     @Test
     void should_return_males_employee_when_get_employees_by_gender() throws Exception {
-        Employee expected = employeeController.createEmployee(new Employee(null,"Mike",23,"Male",6000.0));
-        employeeController.createEmployee(new Employee(null,"lily",23,"Female",6000.0));
+        Employee expected = employeeController.createEmployee(new Employee(null, "Mike", 23, "Male", 6000.0));
+        employeeController.createEmployee(new Employee(null, "lily", 23, "Female", 6000.0));
         MockHttpServletRequestBuilder request = get("/employees?gender=male")
                 .contentType(MediaType.APPLICATION_JSON);
 
@@ -83,5 +83,33 @@ public class EmployeeControllerTests {
                 .andExpect(jsonPath("$[0].salary").value(expected.salary()));
 
     }
+
+    @Test
+    void should_return_employees_when_get_employees_list() throws Exception {
+        Employee employee1 = employeeController.createEmployee(new Employee(null, "Mike", 23, "Male", 6000.0));
+        Employee employee2 = employeeController.createEmployee(new Employee(null, "Lily", 25, "Female", 7000.0));
+
+        MockHttpServletRequestBuilder request = get("/employees")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].id").value(employee1.id()))
+                .andExpect(jsonPath("$[0].name").value(employee1.name()))
+                .andExpect(jsonPath("$[0].age").value(employee1.age()))
+                .andExpect(jsonPath("$[0].gender").value(employee1.gender()))
+                .andExpect(jsonPath("$[0].salary").value(employee1.salary()))
+                .andExpect(jsonPath("$[1].id").value(employee2.id()))
+                .andExpect(jsonPath("$[1].name").value(employee2.name()))
+                .andExpect(jsonPath("$[1].age").value(employee2.age()))
+                .andExpect(jsonPath("$[1].gender").value(employee2.gender()))
+                .andExpect(jsonPath("$[1].salary").value(employee2.salary()));
+    }
+
+
+
+
+
 
 }
