@@ -113,5 +113,18 @@ public class CompanyControllerTests {
                 .andExpect(jsonPath("$.name").value("Spring Framework"));
     }
 
+    @Test
+    void should_return_response_code_when_delete_a_company() throws Exception {
+        Company company = companyController.createCompany(new Company(null, "Spring"));
+        int id = company.id();
+
+        MockHttpServletRequestBuilder request = delete("/companies/" + id)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andExpect(status().isNoContent());
+    }
+
+
 
 }

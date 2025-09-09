@@ -62,5 +62,22 @@ public class CompanyController {
         throw new CompanyNotFoundException("Company not found with id: " + id);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCompany(@PathVariable int id) {
+        int index = -1;
+        for (int i = 0; i < companies.size(); i++) {
+            if (companies.get(i).id() == id) {
+                index = i;
+                break;
+            }
+        }
+        if (index != -1) {
+            companies.remove(index);
+        } else {
+            throw new CompanyNotFoundException("Company not found with id: " + id);
+        }
+    }
+
 
 }
