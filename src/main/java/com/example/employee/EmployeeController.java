@@ -64,4 +64,15 @@ public class EmployeeController {
         throw new EmployeeNotFoundException("Employee not found with id: " + id);
     }
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEmployee(@PathVariable int id) {
+        for (int i = 0; i < employees.size(); i++) {
+            Employee employee = employees.get(i);
+            if (employee.id() == id) {
+               employees.remove(i);
+            }
+        }
+    }
+
 }
