@@ -74,12 +74,15 @@ public class EmployeeController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable int id) {
+        int index =0;
         for (int i = 0; i < employees.size(); i++) {
             Employee employee = employees.get(i);
             if (employee.id() == id) {
-               employees.remove(i);
+               index = i;
+               break;
             }
         }
+        employees.remove(index);
     }
 
 
