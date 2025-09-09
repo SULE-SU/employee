@@ -29,4 +29,14 @@ public class EmployeeController {
                 .findFirst()
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
     }
+
+    @GetMapping
+    public List<Employee> getEmployeesByGender(@RequestParam(required =false) String gender) {
+        if (gender == null) {
+            return employees;
+        }
+        return employees.stream()
+                .filter(employee -> employee.gender().compareToIgnoreCase(gender)==0)
+                .toList();
+    }
 }
