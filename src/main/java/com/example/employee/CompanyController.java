@@ -35,4 +35,18 @@ public class CompanyController {
                 .orElseThrow(() -> new CompanyNotFoundException("Company not found with id: " + id));
     }
 
+    @GetMapping
+    public List<Company> getAllCompanies(@RequestParam(required = false) Integer page,
+                                         @RequestParam(required = false) Integer pageSize) {
+        if (page != null && pageSize != null) {
+            int fromIndex = (page - 1) * pageSize;
+            int toIndex = Math.min(fromIndex + pageSize, companies.size());
+            if (fromIndex > companies.size()) {
+                return List.of();
+            }
+            return companies.subList(fromIndex, toIndex);
+        }
+        return companies;
+    }
+
 }
