@@ -56,21 +56,24 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public Employee updateEmployee(@PathVariable int id, @RequestBody Employee updatedEmployee) {
-        for (int i = 0; i < employees.size(); i++) {
-            Employee employee = employees.get(i);
-            if (employee.id() == id) {
-                Employee newEmployee = new Employee(
-                        id,
-                        updatedEmployee.name(),
-                        updatedEmployee.age(),
-                        updatedEmployee.gender(),
-                        updatedEmployee.salary()
-                );
-                employees.set(i, newEmployee);
-                return newEmployee;
-            }
+        int index = employees.stream()
+                .map(Employee::id)
+                .toList()
+                .indexOf(id);
+
+        if (index == -1) {
+            throw new EmployeeNotFoundException("Employee not found with id: " + id);
         }
-        throw new EmployeeNotFoundException("Employee not found with id: " + id);
+
+        Employee newEmployee = new Employee(
+                id,
+                updatedEmployee.name(),
+                updatedEmployee.age(),
+                updatedEmployee.gender(),
+                updatedEmployee.salary()
+        );
+        employees.set(index, newEmployee);
+        return newEmployee;
     }
 
     @DeleteMapping("{id}")
