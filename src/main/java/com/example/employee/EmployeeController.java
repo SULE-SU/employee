@@ -1,5 +1,6 @@
 package com.example.employee;
 
+import com.example.employee.exception.EmployeeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
