@@ -1,5 +1,6 @@
 package com.example.employee;
 
+import com.example.employee.exception.CompanyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,14 @@ public class CompanyController {
         Company newCompany = new Company(id, company.name());
         companies.add(newCompany);
         return newCompany;
+    }
+
+    @GetMapping("/{id}")
+    public Company getCompanyById(@PathVariable int id) {
+        return companies.stream()
+                .filter(company -> company.id() == id)
+                .findFirst()
+                .orElseThrow(() -> new CompanyNotFoundException("Company not found with id: " + id));
     }
 
 }
