@@ -49,4 +49,18 @@ public class CompanyController {
         return companies;
     }
 
+    @PutMapping("/{id}")
+    public Company updateCompany(@PathVariable int id, @RequestBody Company updatedCompany) {
+        for (int i = 0; i < companies.size(); i++) {
+            Company company = companies.get(i);
+            if (company.id() == id) {
+                Company newCompany = new Company(id, updatedCompany.name());
+                companies.set(i, newCompany);
+                return newCompany;
+            }
+        }
+        throw new CompanyNotFoundException("Company not found with id: " + id);
+    }
+
+
 }
